@@ -1,0 +1,121 @@
+<DOCTYPE! html>
+<html>
+<head>
+<title>Typing test</title>
+<style>
+*{
+    padding: 0px;
+    margin:0px;
+ box-sizing: border-box;   
+}
+.mainDiv{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background:#3498db;
+}
+.centerDiv{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+h1{
+    text-transform: capitalize;
+    margin-bottom: 30px;
+    color:#ecf0f1;
+    text-shadow: 1px 2px 3px #2980b9;
+    font-size: 2.1rem;
+}
+h2{
+    text-align:center;
+}
+textarea{
+    background-color: #444;
+    box-shadow: 0 0 1px rgba(0,0,0,0.2);
+    border-radius: 10px 10px 0 0;
+    border:20px solid #34495e;
+    color:white;
+    font-size: 1.3rem;
+}
+.mainbtn{
+    padding: 10px 20px;
+    border-radius: 20px;
+    border:5px solid #2980b9;
+    background:#ecf0f1;
+    font-size: 1rem; 
+}
+</style>
+</head>
+<body>
+    <div class="mainDiv">
+        <div class="centerDiv">
+            <h1>Welcome To Typing Speed  Test</h1>
+            <h2 id="msg"></h2>
+            <br>
+            <textarea id="mywords" cols="100" rows="10" placehoder="Remember, be nice!"></textarea>
+            <br>
+            <button id="btn" class="mainbtn">Start</button>
+            
+</body>
+<script>
+const setofmywords=[
+    "Recently, an exhibition ‘Building A New India’ was held in the ",
+    "The Rajasthani and Gujarati paintings were very colourful and attractive. This exhibition, inaugurated by the Prime Minister, lasted for a week",
+    " It proved to be of great educational value. It brushed up my knowledge about India as my motherland",
+    "It enhanced my respect for my great country, India. I would ver"
+];
+const msg = document.getElementById('msg');
+const typeWords = document.getElementById('mywords');
+const btn = document.getElementById('btn');
+let startTime, endTiime;
+const playGame = () =>{
+    let randomNumber = Math.floor(Math.random()*setofmywords.length);
+    msg.innerText = setofmywords[randomNumber];
+    let date = new Date();
+    startTime = date.getTime();
+    btn.innerText = "Done";
+}
+const endPlay = () =>{
+      let date = new Date();
+    endTime = date.getTime();
+    let totalTime = ((endTime-startTime)/1000);
+    console.log(totalTime);
+    let totalStr = typeWords.value;
+    let wordCount = wordCounter(totalStr);
+    let speed = Math.round((wordCount / totalTime)*60);
+    let finalMsg ="You total typed at "+speed+" words per minute ";
+    finalMsg += compareWords(msg.innerText, totalStr);
+    msg.innerText = finalMsg;
+}
+const compareWords = (str1,str2) =>{
+let words1 = str1.split(" ");
+let words2 = str2.split(" ");
+let cnt = 0;
+  words1.forEach(function(item,index){
+      if(item == words2[index]){
+          cnt++;
+      }
+  })
+  let errorWords = (words1.length - cnt);
+  return(cnt+" correct out of "+words1.length+" Words and the total number are "+errorWords+" . ");
+}
+const wordCounter =(str) => {
+    let response = str.split(" ").length;
+    console.log(response);
+    return response;
+} 
+
+btn.addEventListener('click', function(){
+    if(this.innerText=='Start'){
+        typeWords.disabled = false;
+        playGame();
+    }else if(this.innerText == "Done"){
+        typeWords.disabled = true;
+        btn.innerText="Start";
+        endPlay();
+        }
+})
+</script>
+</html>
